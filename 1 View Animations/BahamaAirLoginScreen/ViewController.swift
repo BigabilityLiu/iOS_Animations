@@ -126,6 +126,11 @@ class ViewController: UIViewController {
                     self.loginButton.center.y -= 30.0
                     self.loginButton.alpha = 1.0
     }, completion: nil)
+    
+    animateCloud(cloud1)
+    animateCloud(cloud2)
+    animateCloud(cloud3)
+    animateCloud(cloud4)
   }
 
   // MARK: further methods
@@ -136,7 +141,7 @@ class ViewController: UIViewController {
         UIView.transition(with: status, duration: 0.5, options: [.curveEaseOut,.transitionCurlDown], animations: {
             self.status.isHidden = false
         }, completion: { _ in
-            delay(2.0) {
+            delay(1.5) {
                 if index < self.messages.count-1 {
                     self.removeMessage(index)
                 } else {
@@ -170,6 +175,18 @@ class ViewController: UIViewController {
             self.loginButton.center.y -= 60
         }, completion: nil)
     }
+    
+    func animateCloud(_ cloud: UIImageView){
+        let velocity = 20.0 /  view.frame.size.width
+        let duration = (view.frame.size.width - cloud.frame.origin.x) * velocity
+        UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.curveLinear], animations: {
+            cloud.frame.origin.x = self.view.frame.width
+        }, completion: {_ in
+            cloud.frame.origin.x = -cloud.frame.width
+            self.animateCloud(cloud)
+        })
+    }
+    
   @IBAction func login() {
     view.endEditing(true)
     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: [], animations: {
